@@ -3,60 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>Coach Portfolio - Victory is a Habit</title>
     <style>
-        /* Modern CSS Reset */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        /* --- CSS STYLES (Design & Animations) --- */
+        :root {
+            --primary: #2ecc71; /* Grass Green */
+            --dark: #111;
+            --darker: #000;
+            --text: #eee;
+            --gray: #aaa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
         
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+        body { background-color: var(--dark); color: var(--text); overflow-x: hidden; }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 600px;
-            width: 100%;
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.9); z-index: 1000; backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
         }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
 
-        h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 700; }
-        p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; line-height: 1.6; }
-        
-        .loader {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+        /* Hero Section (Main Banner) */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
+        .hero-content h1 { font-size: 5rem; text-transform: uppercase; line-height: 1; margin-bottom: 20px; animation: slideDown 1s ease; }
+        .hero-content p { font-size: 1.5rem; color: var(--primary); margin-bottom: 40px; animation: slideUp 1s ease 0.5s backwards; }
+        .btn {
+            padding: 15px 40px; background: var(--primary); color: black; text-decoration: none;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            display: inline-block; animation: fadeIn 2s ease 1s backwards; cursor: pointer; border: none;
+        }
+        .btn:hover { transform: scale(1.05); background: white; }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Stats Section */
+        .stats { display: flex; justify-content: space-around; padding: 60px 10%; background: var(--darker); }
+        .stat-box { text-align: center; opacity: 0; transform: translateY(30px); transition: 1s; }
+        .stat-num { font-size: 3rem; font-weight: bold; color: var(--primary); }
+        .stat-label { color: var(--gray); text-transform: uppercase; font-size: 0.9rem; }
+
+        /* About Section */
+        .section { padding: 100px 10%; }
+        .section-title { font-size: 2.5rem; margin-bottom: 50px; text-transform: uppercase; border-left: 5px solid var(--primary); padding-left: 20px; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-img { width: 100%; border-radius: 10px; filter: grayscale(100%); transition: 0.5s; }
+        .about-img:hover { filter: grayscale(0%); }
+        .about-text p { margin-bottom: 20px; line-height: 1.8; color: var(--gray); }
+
+        /* Career Timeline */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline-item { margin-bottom: 50px; border-left: 2px solid var(--primary); padding-left: 30px; position: relative; opacity: 0; transform: translateX(-30px); transition: 1s; }
+        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; }
+        .year { color: var(--primary); font-weight: bold; margin-bottom: 5px; display: block; }
+        .role { font-size: 1.5rem; margin-bottom: 10px; }
+        .desc { color: var(--gray); }
+
+        /* Contact Section */
+        .contact { background: #1a1a1a; text-align: center; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; max-width: 500px; padding: 15px; margin-bottom: 20px;
+            background: #333; border: none; color: white; font-size: 1rem;
+        }
+        .contact-form button { width: 100%; max-width: 500px; }
+
+        /* Footer */
+        footer { padding: 30px; text-align: center; color: var(--gray); border-top: 1px solid #333; font-size: 0.9rem; }
+
+        /* Animations */
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Scroll Animation Class (Javascript will add this) */
+        .show-animate { opacity: 1 !important; transform: translateY(0) !important; transform: translateX(0) !important; }
 
         /* Mobile Responsive */
-        @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            .container { padding: 1.5rem; }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 30px; }
+            .nav-links { display: none; } /* Hidden on mobile for simplicity */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Something Amazing is Coming</h1>
-        <p>We are working hard to bring you the best experience. <br> Stay tuned for the launch!</p>
-        <div class="loader"></div>
+
+    <nav>
+        <div class="logo">Coach Mike</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#career">Career</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Dominate<br>The Field</h1>
+            <p>Professional Football Coach | Tactician | Mentor</p>
+            <a href="#contact" class="btn">Scout Me</a>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat-box">
+            <div class="stat-num">15+</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">48</div>
+            <div class="stat-label">Championships Won</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Players Trained</div>
+        </div>
     </div>
+
+    <section id="about" class="section">
+        <h2 class="section-title">My Philosophy</h2>
+        <div class="about-grid">
+            <img src="https://images.unsplash.com/photo-1526232761682-d26e03ac148e?q=80&w=2029&auto=format&fit=crop" alt="Coach Profile" class="about-img">
+            <div class="about-text">
+                <p>Football isn't just about physical strength; it's about mental resilience and tactical intelligence. My coaching style focuses on building a winning mindset first.</p>
+                <p>I believe in disciplined training, adaptive strategies, and fostering a brotherhood within the team. Whether it's grassroots development or professional league management, my goal remains the same: Excellence.</p>
+                <a href="#career" class="btn" style="background: transparent; border: 2px solid var(--primary); color: var(--primary);">View Career</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="career" class="section" style="background: #0d0d0d;">
+        <h2 class="section-title">Career Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="year">2020 - Present</span>
+                <h3 class="role">Head Coach - The Titans FC</h3>
+                <p class="desc">Led the team to regional finals. Improved defensive stats by 40% in the first season.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2015 - 2020</span>
+                <h3 class="role">Assistant Coach - City United</h3>
+                <p class="desc">Specialized in midfield strategy and youth player development.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2010 - 2015</span>
+                <h3 class="role">Academy Director - Grassroots Club</h3>
+                <p class="desc">Developed training modules for U-14 and U-16 squads.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p style="color: #aaa; margin-bottom: 30px;">Interested in hiring me or training sessions?</p>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea rows="5" placeholder="Message"></textarea>
+            <button type="button" class="btn">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Coach Mike Portfolio. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Javascript for Scroll Animations
+        // Jab bhi koi element screen par aayega, wo animate hoga
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-animate');
+                }
+            });
+        });
+
+        // Kin elements ko observe karna hai
+        const hiddenElements = document.querySelectorAll('.stat-box, .timeline-item');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
 </body>
 </html>
