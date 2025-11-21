@@ -1,0 +1,15 @@
+{
+  "name": "simple-coming-soon",
+  "version": "1.0.0",
+  "description": "Simple Coming Soon Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
