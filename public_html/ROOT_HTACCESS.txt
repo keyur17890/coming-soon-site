@@ -1,0 +1,122 @@
+# ═══════════════════════════════════════════════════════════════
+# VP INTERNATIONALS - ROOT .HTACCESS (For public_html)
+# ═══════════════════════════════════════════════════════════════
+#
+# POINT 1473: ROOT HTACCESS MASKING CODE
+#
+# This file should be renamed to .htaccess and placed in the
+# public_html directory (NOT in vp-internationals folder).
+#
+# It routes all traffic to the vp-internationals subfolder
+# while keeping URLs clean (no /vp-internationals/ in URL).
+#
+# Result: vpinternationals.com/about loads from
+#         public_html/vp-internationals/about.php
+# ═══════════════════════════════════════════════════════════════
+
+# Enable Rewrite Engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # ─────────────────────────────────────────────────────────────────
+    # HTTPS REDIRECT (Before folder routing)
+    # ─────────────────────────────────────────────────────────────────
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP_HOST} !^localhost [NC]
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ─────────────────────────────────────────────────────────────────
+    # WWW TO NON-WWW REDIRECT
+    # ─────────────────────────────────────────────────────────────────
+    RewriteCond %{HTTP_HOST} ^www\.vpinternationals\.com$ [NC]
+    RewriteRule ^(.*)$ https://vpinternationals.com/$1 [L,R=301]
+
+    # ─────────────────────────────────────────────────────────────────
+    # BLOCK DIRECT ACCESS TO SUBFOLDER IN URL
+    # Prevents users from accessing vpinternationals.com/vp-internationals/
+    # ─────────────────────────────────────────────────────────────────
+    RewriteCond %{THE_REQUEST} /vp-internationals/ [NC]
+    RewriteRule ^vp-internationals/(.*)$ /$1 [L,R=301]
+
+    # ─────────────────────────────────────────────────────────────────
+    # INVISIBLE ROUTING TO VP-INTERNATIONALS FOLDER
+    # All requests are internally served from vp-internationals/
+    # ─────────────────────────────────────────────────────────────────
+
+    # Don't rewrite requests that already go to vp-internationals (internal)
+    RewriteCond %{REQUEST_URI} !^/vp-internationals/
+
+    # Don't rewrite if the file exists directly in public_html
+    # (useful for things like robots.txt at root level if needed)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route everything to vp-internationals folder
+    RewriteRule ^(.*)$ /vp-internationals/$1 [L]
+
+    # ─────────────────────────────────────────────────────────────────
+    # FALLBACK: If file exists in vp-internationals, serve it
+    # ─────────────────────────────────────────────────────────────────
+    RewriteCond %{REQUEST_URI} !^/vp-internationals/
+    RewriteCond %{DOCUMENT_ROOT}/vp-internationals%{REQUEST_URI} -f
+    RewriteRule ^(.*)$ /vp-internationals/$1 [L]
+
+    RewriteCond %{REQUEST_URI} !^/vp-internationals/
+    RewriteCond %{DOCUMENT_ROOT}/vp-internationals%{REQUEST_URI} -d
+    RewriteRule ^(.*)$ /vp-internationals/$1 [L]
+</IfModule>
+
+# ═══════════════════════════════════════════════════════════════
+# SECURITY: PROTECT SENSITIVE FILES
+# ═══════════════════════════════════════════════════════════════
+
+# Block access to .env file
+<FilesMatch "^\.env$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block access to hidden files
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ═══════════════════════════════════════════════════════════════
+# DIRECTORY OPTIONS
+# ═══════════════════════════════════════════════════════════════
+Options -Indexes
+Options +FollowSymLinks
+
+# ═══════════════════════════════════════════════════════════════
+# INSTALLATION INSTRUCTIONS
+# ═══════════════════════════════════════════════════════════════
+#
+# 1. Upload all VP Internationals files to: public_html/vp-internationals/
+#
+# 2. Rename this file from ROOT_HTACCESS.txt to .htaccess
+#
+# 3. Upload the renamed .htaccess file to: public_html/ (root)
+#
+# 4. Ensure the vp-internationals folder also has its own .htaccess
+#    (for clean URLs, caching, etc.)
+#
+# 5. Test by visiting: https://vpinternationals.com
+#    It should load content from vp-internationals/index.php
+#
+# 6. Test a subpage: https://vpinternationals.com/about
+#    It should load content from vp-internationals/about.php
+#
+# ═══════════════════════════════════════════════════════════════
