@@ -1,0 +1,169 @@
+# ═══════════════════════════════════════════════════════════════
+# VP INTERNATIONALS - ROBOTS.TXT
+# ═══════════════════════════════════════════════════════════════
+# Points 1273-1274: Search engine crawler directives
+#
+# This file controls how search engine crawlers access and index
+# the website. It specifies which areas should be crawled and
+# which should be excluded.
+#
+# @package     VP_Internationals
+# @version     2.0.0
+# @author      VP Internationals Dev Team
+# ═══════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────
+# GENERAL CRAWLER DIRECTIVES
+# ─────────────────────────────────────────────────────────────────
+
+# Allow all crawlers by default
+User-agent: *
+
+# Allow crawling of main content
+Allow: /
+
+# ─────────────────────────────────────────────────────────────────
+# DISALLOWED PATHS
+# ─────────────────────────────────────────────────────────────────
+
+# Block admin and system directories
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /config.php
+Disallow: /.env
+Disallow: /.env.example
+
+# Block form submission endpoints
+Disallow: /contact-submit.php
+Disallow: /newsletter-subscribe.php
+
+# Block temporary and cache files
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /logs/
+
+# Block error pages
+Disallow: /404.php
+Disallow: /500.php
+
+# Block search results pages (if any)
+Disallow: /search?
+Disallow: /*?s=
+Disallow: /*?search=
+
+# Block duplicate content from query parameters
+Disallow: /*?utm_*
+Disallow: /*?ref=
+Disallow: /*?source=
+Disallow: /*?campaign=
+
+# Block print and mobile versions
+Disallow: /*?print=
+Disallow: /*?mobile=
+
+# ─────────────────────────────────────────────────────────────────
+# CRAWL RATE LIMITING
+# ─────────────────────────────────────────────────────────────────
+
+# Request a 1 second delay between requests (optional, not all crawlers honor this)
+Crawl-delay: 1
+
+# ─────────────────────────────────────────────────────────────────
+# SPECIFIC CRAWLER RULES
+# ─────────────────────────────────────────────────────────────────
+
+# Google Bots
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Disallow: /admin/
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Crawl-delay: 1
+
+# Yahoo Slurp
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Crawl-delay: 2
+
+# DuckDuckGo Bot
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+
+# Yandex Bot
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Crawl-delay: 2
+
+# Baidu Spider
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Crawl-delay: 2
+
+# ─────────────────────────────────────────────────────────────────
+# BLOCK BAD BOTS
+# ─────────────────────────────────────────────────────────────────
+
+# Block common scrapers and bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: SearchmetricsBot
+Disallow: /
+
+# Note: Remove the above blocks if you want these SEO tools to crawl your site
+
+# ─────────────────────────────────────────────────────────────────
+# SITEMAP LOCATION
+# ─────────────────────────────────────────────────────────────────
+
+# XML Sitemap location
+Sitemap: https://vpinternationals.com/sitemap.xml
+
+# ─────────────────────────────────────────────────────────────════
+# NOTES
+# ─────────────────────────────────────────────────────────────════
+#
+# 1. This robots.txt file should be placed in the root directory
+#    of the website (public_html or www folder)
+#
+# 2. The sitemap URL should be updated to match the actual domain
+#
+# 3. Crawl-delay is honored by Bing, Yahoo, and some other crawlers,
+#    but NOT by Google. Google's crawl rate is managed in Search Console.
+#
+# 4. To test this file, use Google Search Console's robots.txt tester
+#
+# 5. Remember that robots.txt is a suggestion, not a security measure.
+#    Sensitive data should be protected by proper authentication.
+#
+# Last updated: 2024-01-15
+# ═══════════════════════════════════════════════════════════════
